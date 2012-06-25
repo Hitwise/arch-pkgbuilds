@@ -1,0 +1,29 @@
+# Maintainer: Lucas Martin-King <lmartinking@gmail.com>
+
+pkgname=avro-c
+pkgver=1.7.0
+pkgrel=0
+pkgdesc="Apache Avro data serialisation library"
+arch=('i686' 'x86_64')
+url="http://avro.apache.org/"
+license=('Apache')
+depends=('xz' 'zlib')
+provides=("avro-c=$pkgver")
+makedepends=('cmake' 'pkgconfig')
+options=('!libtool')
+source=(http://www.us.apache.org/dist/avro/avro-$pkgver/c/$pkgname-$pkgver.tar.gz)
+
+md5sums=('6fc19bfb53bd8c0de58b43e42dc8b528')
+
+build() {
+  cd $srcdir/avro-c-$pkgver
+  mkdir build
+  cd build
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
+  make
+}
+
+package() {
+  cd $srcdir/avro-c-$pkgver/build
+  make DESTDIR=$pkgdir install
+}
